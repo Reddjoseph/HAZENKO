@@ -146,5 +146,26 @@ for (let i = 0; i < sparksCount; i++) {
   sparksContainer.appendChild(spark);
 }
 
+// Interactive hero sparks
+const hero = document.querySelector('.hero');
+
+hero.addEventListener('mousemove', e => {
+  const spark = document.createElement('div');
+  spark.className = 'spark';
+
+  const dx = (Math.random() - 0.5) * 60;
+  const dy = (Math.random() - 0.5) * 60;
+
+  spark.style.left = `${e.clientX}px`;
+  spark.style.top = `${e.clientY}px`;
+  spark.style.setProperty('--dx', `${dx}px`);
+  spark.style.setProperty('--dy', `${dy}px`);
+
+  document.body.appendChild(spark);
+
+  setTimeout(() => {
+    spark.remove();
+  }, 1000);
+});
 
 });
