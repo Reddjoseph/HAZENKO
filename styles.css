@@ -136,7 +136,7 @@ a {
 
 .glow-text {
   font-size: 3.5rem;
-  color: #ff7f00;
+  color: #ffffff;
 }
 
 .glow-text span {
@@ -144,10 +144,17 @@ a {
   animation: slowGlow 7s linear infinite;
 }
 
+/* glow effect */
 @keyframes slowGlow {
   0%, 90%, 100% { text-shadow: none; }
-  45% { text-shadow: 0 0 12px #ff7f00, 0 0 25px #ffae42, 0 0 40px #ff7f00; }
+  45% { 
+    text-shadow: 
+      0 0 12px #ff7f00, 
+      0 0 25px #ffae42, 
+      0 0 40px #ff7f00; 
+  }
 }
+
 
 .hero-sub {
   font-size: 1.4rem;
