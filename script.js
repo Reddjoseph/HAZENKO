@@ -6,17 +6,6 @@ window.addEventListener("load", () => {
     navLinks.classList.toggle("active");
   });
 
-  // FAQ ACCORDION
-  document.querySelectorAll(".faq-item").forEach(item => {
-    const question = item.querySelector(".faq-question");
-    const answer = item.querySelector(".faq-answer");
-
-    question.addEventListener("click", () => {
-      const isActive = item.classList.toggle("active");
-      answer.style.maxHeight = isActive ? `${answer.scrollHeight}px` : "0";
-    });
-  });
-
   // FALLING LEAVES OPTIMIZED
   const leavesContainer = document.querySelector(".leaves-container");
   const screenHeight = window.innerHeight;
@@ -123,4 +112,24 @@ window.addEventListener("load", () => {
 
   document.addEventListener("scroll", highlightNav);
   highlightNav();
+
+  // FAQ
+document.querySelectorAll(".faq-item").forEach(item => {
+  const question = item.querySelector(".faq-question");
+  const answer = item.querySelector(".faq-answer");
+
+  question.addEventListener("click", () => {
+    const isOpen = item.classList.contains("active");
+    if (isOpen) {
+      item.classList.remove("active");
+      answer.style.maxHeight = "0px";
+    } else {
+      item.classList.add("active");
+      answer.style.maxHeight = answer.scrollHeight + "px";
+    }
+  });
+});
+
+
+
 });
