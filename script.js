@@ -130,6 +130,21 @@ document.querySelectorAll(".faq-item").forEach(item => {
   });
 });
 
+// Hero Sparks Generation
+const sparksContainer = document.querySelector('.hero-sparks');
+const sparksCount = 30;
+
+for (let i = 0; i < sparksCount; i++) {
+  const spark = document.createElement('div');
+  spark.classList.add('hero-spark');
+  spark.style.left = Math.random() * 100 + '%';
+  spark.style.top = Math.random() * 100 + '%';
+  spark.style.width = 2 + Math.random() * 3 + 'px';
+  spark.style.height = 2 + Math.random() * 3 + 'px';
+  spark.style.animationDuration = 3 + Math.random() * 2 + 's';
+  spark.style.animationDelay = Math.random() * 5 + 's';
+  sparksContainer.appendChild(spark);
+}
 
 
 });

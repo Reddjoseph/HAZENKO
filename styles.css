@@ -123,7 +123,15 @@ a {
   text-align: center;
   padding: 6rem 1rem 7rem;
   overflow: hidden;
-  background: url('assets/bg.png') center/cover no-repeat;
+  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('assets/bg.png') center/cover no-repeat;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255,127,0,0.15), transparent 70%);
+  z-index: 1;
 }
 
 .hero-content {
@@ -134,42 +142,50 @@ a {
   align-items: center;
 }
 
+/* Glow text */
 .glow-text {
-  font-size: 3.5rem;
+  font-size: 3.8rem;
   color: #ffffff; 
+  position: relative;
 }
 
 .glow-text span {
   display: inline-block;
-  animation: slowGlow 7s linear infinite;
-  color: #ffffff; 
-  text-shadow: 
-    0 0 12px #ff7f00, 
-    0 0 25px #ffae42, 
-    0 0 40px #ff7f00;
+  animation: slowGlow 6s ease-in-out infinite;
+  color: #fff; 
+  text-shadow:
+    0 0 12px #ff7f00,
+    0 0 25px #ffae42,
+    0 0 40px #ff7f00,
+    0 0 60px #ff7f00,
+    0 0 80px #ffb347;
 }
 
-/* glow effect */
 @keyframes slowGlow {
   0%, 90%, 100% { text-shadow: none; }
   45% { 
     text-shadow: 
       0 0 12px #ff7f00, 
       0 0 25px #ffae42, 
-      0 0 40px #ff7f00; 
+      0 0 40px #ff7f00,
+      0 0 60px #ff7f00,
+      0 0 80px #ffb347;
   }
 }
 
 .hero-sub {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   margin-top: 1rem;
   color: #fff;
+  text-shadow: 0 0 6px #ff7f00, 0 0 12px #ffa64d;
+  max-width: 700px;
+  line-height: 1.6;
 }
 
 .hero-buttons {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   display: flex;
-  gap: 1rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
 }
 
@@ -181,19 +197,58 @@ a {
 }
 
 .btn.primary {
-  background: #ff7f00;
+  background: linear-gradient(135deg, #ff7f00, #ffae42);
   color: #fff;
+  padding: 1rem 2.2rem;
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255, 127, 0, 0.4);
 }
 
-.btn.primary:hover,
-.btn.secondary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 127, 0, 0.5);
+.btn.primary:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 127, 0, 0.7);
 }
 
 .btn.secondary {
-  background: #fff;
+  background: linear-gradient(135deg, #fff, #ffd699);
   color: #ff7f00;
+  padding: 1rem 2.2rem;
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 127, 0, 0.25);
+}
+
+.btn.secondary:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 127, 0, 0.5);
+}
+
+/* ============================= */
+/*           SPARKS EFFECT       */
+/* ============================= */
+.hero-sparks {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #ff7f00, #ffae42);
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: sparkMove linear infinite;
+}
+
+@keyframes sparkMove {
+  0% { transform: translateY(0) scale(0.8); opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-120px) scale(1.2); opacity: 0; }
 }
 
 /* ============================= */
@@ -539,4 +594,46 @@ a {
   );
   opacity: 0.9;
   transform-origin: center;
+}
+
+/* ============================= */
+/*      HERO FLOATING ANIMS      */
+/* ============================= */
+@keyframes floatLetters {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.glow-text span {
+  display: inline-block;
+  animation: slowGlow 7s linear infinite, floatLetters 3s ease-in-out infinite;
+}
+
+.glow-text span:nth-child(odd) {
+  animation-delay: 0s, 0.1s; 
+}
+
+.glow-text span:nth-child(even) {
+  animation-delay: 0s, 0.3s;
+}
+
+.hero-sparks {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.hero-spark {
+  position: absolute;
+  background: radial-gradient(circle, #ff7f00, #ffae42);
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: sparkMove linear infinite;
+}
+
+@keyframes sparkMove {
+  0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+  50% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(0) scale(0.8); opacity: 0.7; }
 }
