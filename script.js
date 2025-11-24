@@ -223,5 +223,208 @@ function randomShootingStars() {
 
 randomShootingStars();
 
+// ============================== //
+//        Constellations          //
+// ============================== //
+const container = document.querySelector('.constellations-container');
+const numConstellations = 12;
+const constellations = [];
+
+for (let i = 0; i < numConstellations; i++) {
+  const constellation = document.createElement('div');
+  constellation.className = 'constellation';
+  container.appendChild(constellation);
+
+  const xOffset = Math.random() * window.innerWidth;
+  const yOffset = Math.random() * window.innerHeight;
+
+  constellation.dataset.baseY = yOffset;
+  const driftX = (Math.random() - 0.5) * 5;
+  const driftY = (Math.random() - 0.5) * 5;
+  const rotateSpeed = (Math.random() - 0.5) * 0.01;
+
+  constellation.style.left = xOffset + 'px';
+  constellation.style.top = yOffset + 'px';
+
+  const numStars = 2 + Math.floor(Math.random() * 4);
+  const stars = [];
+
+  for (let j = 0; j < numStars; j++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = (Math.random() * 50 - 25) + 'px';
+    star.style.top = (Math.random() * 50 - 25) + 'px';
+    constellation.appendChild(star);
+    stars.push(star);
+  }
+
+  // Connect stars
+  for (let j = 0; j < stars.length; j++) {
+    for (let k = j + 1; k < stars.length; k++) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      constellation.appendChild(line);
+
+      const updateLine = () => {
+        const rect1 = stars[j].getBoundingClientRect();
+        const rect2 = stars[k].getBoundingClientRect();
+        const parentRect = constellation.getBoundingClientRect();
+        const x1 = rect1.left - parentRect.left + rect1.width / 2;
+        const y1 = rect1.top - parentRect.top + rect1.height / 2;
+        const x2 = rect2.left - parentRect.left + rect2.width / 2;
+        const y2 = rect2.top - parentRect.top + rect2.height / 2;
+        const length = Math.hypot(x2 - x1, y2 - y1);
+        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        line.style.width = length + 'px';
+        line.style.left = x1 + 'px';
+        line.style.top = y1 + 'px';
+        line.style.transform = `rotate(${angle}deg)`;
+      };
+      updateLine();
+      window.addEventListener('resize', updateLine);
+    }
+  }
+
+  constellations.push({ element: constellation, driftX, driftY, rotateSpeed });
+}
+
+// Animate constellations with scroll parallax
+function animateConstellations() {
+  const scrollY = window.scrollY;
+  constellations.forEach(c => {
+    let posX = c.driftX * 0.002 * scrollY;
+    let posY = c.driftY * 0.002 * scrollY - scrollY * 0.2; 
+    let angle = c.rotateSpeed * scrollY;
+    c.element.style.transform = `rotate(${angle}rad)`;
+  });
+}
+
+window.addEventListener('scroll', animateConstellations);
+animateConstellations();
+
+// ============================== //
+//        Cyber Particles         //
+// ============================== //
+const heroParticlesContainer = document.getElementById('heroParticles');
+
+// ============================= //
+// ADD PLASMA GLOW               //
+// ============================= //
+const plasmaGlow = document.createElement('div');
+plasmaGlow.classList.add('hero-plasma-glow');
+heroParticlesContainer.appendChild(plasmaGlow);
+
+// ============================= //
+// MAIN FLAME PARTICLES          //
+// ============================= //
+const particleCount = 80;
+for (let i = 0; i < particleCount; i++) {
+  const particle = document.createElement('div');
+  particle.classList.add('hero-particle');
+
+  const startX = Math.random() * 100; 
+  const startY = 100 + Math.random() * 50;
+  const width = 1 + Math.random() * 3;
+  const height = 8 + Math.random() * 25;
+
+  particle.style.left = startX + '%';
+  particle.style.top = startY + '%';
+  particle.style.width = width + 'px';
+  particle.style.height = height + 'px';
+
+  const riseDuration = 3 + Math.random() * 5;
+  const delay = Math.random() * 5;
+  const drift = (Math.random() - 0.5) * 60;
+
+  const animName = `flameRise${i}`;
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes ${animName} {
+      0% { transform: translate(0, 0) scaleX(1); opacity: 0; }
+      10% { opacity: 0.7; }
+      50% { transform: translate(${drift/2}px, -60vh) scaleX(${1 + (Math.random() - 0.5)*0.6}); opacity: 0.6; }
+      100% { transform: translate(${drift}px, -120vh) scaleX(0.3); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  particle.style.animation = `${animName} ${riseDuration}s linear ${delay}s infinite`;
+  heroParticlesContainer.appendChild(particle);
+}
+
+// ============================= //
+// CYBERPUNK EMBER SPARKS        //
+// ============================= //
+const sparkCount = 100;
+for (let i = 0; i < sparkCount; i++) {
+  const spark = document.createElement('div');
+  spark.classList.add('hero-spark');
+
+  const startX = Math.random() * 100;
+  const startY = 90 + Math.random() * 30;
+  const size = 1 + Math.random() * 2;
+  const duration = 2 + Math.random() * 2;
+  const drift = (Math.random() - 0.5) * 40;
+
+  spark.style.left = startX + '%';
+  spark.style.top = startY + '%';
+  spark.style.width = size + 'px';
+  spark.style.height = size + 'px';
+
+  const animName = `sparkRise${i}`;
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes ${animName} {
+      0% { transform: translate(0,0); opacity:0; }
+      20% { opacity:0.8; }
+      80% { transform: translate(${drift}px, -80vh) scale(${0.2 + Math.random()*0.8}); opacity:0.4; }
+      100% { transform: translate(${drift}px, -120vh) scale(0); opacity:0; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  spark.style.animation = `${animName} ${duration}s linear ${Math.random()*5}s infinite`;
+  heroParticlesContainer.appendChild(spark);
+}
+
+// ================================= //
+// Hero Typewriter Effect (Working)  //
+// ================================= //
+const phrases = [
+  "Fox Intelligence",
+  "Tiger Strength",
+  "Dragon Innovation"
+];
+
+const typeElement = document.getElementById("typewriter");
+
+let phraseIndex = 0;
+let letterIndex = 0;
+let deleting = false;
+
+function type() {
+  const current = phrases[phraseIndex];
+
+  if (!deleting) {
+    typeElement.textContent = current.slice(0, letterIndex + 1);
+    letterIndex++;
+    if (letterIndex === current.length) {
+      deleting = true;
+      setTimeout(type, 1500);
+      return;
+    }
+  } else {
+    typeElement.textContent = current.slice(0, letterIndex - 1);
+    letterIndex--;
+    if (letterIndex === 0) {
+      deleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+    }
+  }
+
+  setTimeout(type, deleting ? 50 : 100);
+}
+
+type();
 
 });
